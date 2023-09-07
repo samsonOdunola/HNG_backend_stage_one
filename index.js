@@ -18,6 +18,21 @@ const daysOfWeek = [
 ];
 const weekNumber = currentDate.getDay();
 
+const getApproximateUTC = () => {
+  const currentUTC = new Date();
+
+  // Get the current minutes
+  const currentMinutes = currentUTC.getUTCMinutes();
+
+  // Round the minutes to the nearest multiple of 2 (for example, 0, 2, 4, ...)
+  const roundedMinutes = Math.round(currentMinutes / 2) * 2;
+
+  // Set the rounded minutes to the current UTC time
+  currentUTC.setUTCMinutes(roundedMinutes);
+
+  return currentUTC.toISOString();
+};
+
 App.get("/api", (req, res) => {
   const name = req.query.slack_name;
   const track = req.query.track;
@@ -25,7 +40,7 @@ App.get("/api", (req, res) => {
   const response = {
     slack_name: name,
     current_day: daysOfWeek[weekNumber],
-    utc_time: currentDate.toISOString().slice(0, -5) + "Z",
+    utc_time: getApproximateUTC().slice(0, -5) + "Z",
     track: track,
     github_file_url:
       "https://github.com/samsonOdunola/HNG_backend_stage_one/blob/master/index.js",
