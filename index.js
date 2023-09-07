@@ -2,7 +2,7 @@ const express = require("express");
 const App = express();
 const cors = require("cors");
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 App.use(express.json({ limit: "50mb" }));
 App.use(cors());
@@ -18,15 +18,6 @@ const daysOfWeek = [
 ];
 const weekNumber = currentDate.getDay();
 
-function isWithinTwoHours(date) {
-  const twoHoursAgo = new Date();
-  twoHoursAgo.setUTCHours(currentDate.getUTCHours() - 2);
-
-  const twoHoursFuture = new Date();
-  twoHoursFuture.setUTCHours(currentDate.getUTCHours() + 2);
-
-  return date >= twoHoursAgo && date <= twoHoursFuture;
-}
 App.get("/api", (req, res) => {
   const name = req.query.slack_name;
   const track = req.query.track;
@@ -34,11 +25,11 @@ App.get("/api", (req, res) => {
   const response = {
     slack_name: name,
     current_day: daysOfWeek[weekNumber],
-    utc_time: isWithinTwoHours(currentDate),
+    utc_time: currentDate.toISOString(),
     track: track,
-    github_file_url: file_url,
-    github_repo_url: repo_url,
-    status_code: code,
+    github_file_url: "./index.js",
+    github_repo_url: "https://github.com/samsonOdunola/HNG_backend_stage_one",
+    status_code: 200,
   };
 
   return res.status(200).json({ ...response });
