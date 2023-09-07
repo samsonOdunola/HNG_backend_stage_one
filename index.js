@@ -27,10 +27,12 @@ App.get("/api", (req, res) => {
     current_day: daysOfWeek[weekNumber],
     utc_time: currentDate.toISOString(),
     track: track,
-    github_file_url: "./index.js",
+    github_file_url:
+      "https://github.com/samsonOdunola/HNG_backend_stage_one/blob/master/index.js",
     github_repo_url: "https://github.com/samsonOdunola/HNG_backend_stage_one",
     status_code: 200,
   };
+  res.setHeader("Content-Type", "application/json");
 
   return res.status(200).json({ ...response });
 });
