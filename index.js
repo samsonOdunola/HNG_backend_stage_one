@@ -25,7 +25,7 @@ App.get("/api", (req, res) => {
   const response = {
     slack_name: name,
     current_day: daysOfWeek[weekNumber],
-    utc_time: currentDate.toISOString(),
+    utc_time: currentDate.toISOString().slice(0, -5) + "Z",
     track: track,
     github_file_url:
       "https://github.com/samsonOdunola/HNG_backend_stage_one/blob/master/index.js",
